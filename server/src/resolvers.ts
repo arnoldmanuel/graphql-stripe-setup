@@ -5,7 +5,13 @@ import { error } from "./types";
 
 export const resolvers: IResolvers = {
   Query: {
-    hello: () => "hi"
+    me: (_, __, { req }) => {
+      if (!req.session.userId) {
+        return null;
+      }
+
+      return User.findOne(req.session.userId);
+    }
   },
   Mutation: {
     // This mutation is called when a user is registered
@@ -37,7 +43,7 @@ export const resolvers: IResolvers = {
       }
     },
     // This mutation is called when a user tries to login
-    login: async (_, { email, password }) => {
+    login: async (_, { email, password }, { req }) => {
       const user = await User.findOne({ where: { email } });
       if (!user) return null;
 
@@ -45,6 +51,8 @@ export const resolvers: IResolvers = {
       if (!valid) {
         return null;
       }
+
+      req.session.userId = user.id;
 
       return { errors: null, me: { id: user.id, email: user.email } };
     }
