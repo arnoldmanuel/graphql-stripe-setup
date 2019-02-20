@@ -1,7 +1,6 @@
 import * as bcrypt from "bcryptjs";
 import { IResolvers } from "graphql-tools";
 import { User } from "./entity/User";
-import { error } from "./types";
 
 export const resolvers: IResolvers = {
   Query: {
@@ -16,6 +15,12 @@ export const resolvers: IResolvers = {
   Mutation: {
     // This mutation is called when a user is registered
     register: async (_, { email, password }) => {
+      const RegisterResponse = {
+        code: 200,
+        success: true,
+        message: "User was registered",
+        errors: [{}]
+      };
       try {
         // check if email is already in use
         const isValid = await User.find({ where: { email } });
@@ -36,25 +41,54 @@ export const resolvers: IResolvers = {
           throw "Something went wrong by regestration";
         }
 
-        return { errors: null, didWork: true };
+        RegisterResponse.code = 200;
+        RegisterResponse.success = true;
+        RegisterResponse.message = "User was succesfully created";
+        return RegisterResponse;
       } catch (error) {
-        const errors: error = [{ message: error }];
-        return { errors: errors, didWork: false };
+        RegisterResponse.code = 404;
+        RegisterResponse.success = false;
+        RegisterResponse.message = "Faild to create a user";
+        RegisterResponse.errors = [{ message: error }];
+        return RegisterResponse;
       }
     },
+
     // This mutation is called when a user tries to login
     login: async (_, { email, password }, { req }) => {
+      const LoginResponse = {
+        code: 200,
+        success: true,
+        message: "User was registered",
+        errors: [{}],
+        me: {}
+      };
+
       const user = await User.findOne({ where: { email } });
-      if (!user) return null;
+      if (!user) {
+        LoginResponse.code = 404;
+        LoginResponse.success = false;
+        LoginResponse.message = "User could not login";
+        LoginResponse.errors = [{ message: "email is wrong" }];
+        return LoginResponse;
+      }
 
       const valid = await bcrypt.compare(password, user.password);
       if (!valid) {
-        return null;
+        LoginResponse.code = 404;
+        LoginResponse.success = false;
+        LoginResponse.message = "User could not login";
+        LoginResponse.errors = [{ message: "password is wrong" }];
+        return LoginResponse;
       }
 
       req.session.userId = user.id;
 
-      return { errors: null, me: { id: user.id, email: user.email } };
+      LoginResponse.code = 200;
+      LoginResponse.success = true;
+      LoginResponse.message = "User successfully loged in";
+      LoginResponse.me = { id: user.id, email: user.email };
+      return LoginResponse;
     }
   }
 };

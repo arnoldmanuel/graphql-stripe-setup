@@ -10,12 +10,23 @@ export const typeDefs = gql`
     message: String
   }
 
-  type RegisterResponse {
-    errors: [Error!]
-    didWork: Boolean
+  interface MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
   }
 
-  type LoginResponse {
+  type RegisterResponse implements MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    errors: [Error!]
+  }
+
+  type LoginResponse implements MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
     errors: [Error!]
     me: User
   }
