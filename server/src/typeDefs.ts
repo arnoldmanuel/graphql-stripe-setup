@@ -11,12 +11,12 @@ export const typeDefs = gql`
   }
 
   type RegisterResponse {
-    errors: [Error]
+    errors: [Error!]
     didWork: Boolean
   }
 
   type LoginResponse {
-    errors: [Error]!
+    errors: [Error!]
     me: User
   }
 

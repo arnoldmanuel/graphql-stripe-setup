@@ -8,6 +8,7 @@ export const resolvers: IResolvers = {
     hello: () => "hi"
   },
   Mutation: {
+    // This mutation is called when a user is registered
     register: async (_, { email, password }) => {
       try {
         // check if email is already in use
@@ -34,6 +35,18 @@ export const resolvers: IResolvers = {
         const errors: error = [{ message: error }];
         return { errors: errors, didWork: false };
       }
+    },
+    // This mutation is called when a user tries to login
+    login: async (_, { email, password }) => {
+      const user = await User.findOne({ where: { email } });
+      if (!user) return null;
+
+      const valid = await bcrypt.compare(password, user.password);
+      if (!valid) {
+        return null;
+      }
+
+      return { errors: null, me: { id: user.id, email: user.email } };
     }
   }
 };
