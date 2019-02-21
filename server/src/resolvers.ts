@@ -1,6 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import { IResolvers } from "graphql-tools";
 import { User } from "./entity/User";
+import { LoginResponse, RegisterResponse } from "./utility/responseHelper";
 
 export const resolvers: IResolvers = {
   Query: {
@@ -14,13 +15,7 @@ export const resolvers: IResolvers = {
   },
   Mutation: {
     // This mutation is called when a user is registered
-    register: async (_, { email, password }) => {
-      const RegisterResponse = {
-        code: 200,
-        success: true,
-        message: "User was registered",
-        errors: [{}]
-      };
+    register: async (_, { fullName, email, password }) => {
       try {
         // check if email is already in use
         const isValid = await User.find({ where: { email } });
@@ -32,6 +27,7 @@ export const resolvers: IResolvers = {
         // if not hash the password and insert user
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({
+          fullName,
           email,
           password: hashedPassword
         }).save();
@@ -56,14 +52,6 @@ export const resolvers: IResolvers = {
 
     // This mutation is called when a user tries to login
     login: async (_, { email, password }, { req }) => {
-      const LoginResponse = {
-        code: 200,
-        success: true,
-        message: "User was registered",
-        errors: [{}],
-        me: {}
-      };
-
       const user = await User.findOne({ where: { email } });
       if (!user) {
         LoginResponse.code = 404;
@@ -87,7 +75,11 @@ export const resolvers: IResolvers = {
       LoginResponse.code = 200;
       LoginResponse.success = true;
       LoginResponse.message = "User successfully loged in";
-      LoginResponse.me = { id: user.id, email: user.email };
+      LoginResponse.me = {
+        id: user.id,
+        email: user.email,
+        fullName: user.fullName
+      };
       return LoginResponse;
     }
   }

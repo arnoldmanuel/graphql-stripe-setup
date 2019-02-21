@@ -4,6 +4,7 @@ export const typeDefs = gql`
   type User {
     id: ID
     email: String
+    fullName: String
   }
 
   type Error {
@@ -36,7 +37,11 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    register(email: String!, password: String!): RegisterResponse
+    register(
+      fullName: String!
+      email: String!
+      password: String!
+    ): RegisterResponse
     login(email: String!, password: String!): LoginResponse
   }
 `;
