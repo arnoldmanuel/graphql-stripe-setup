@@ -6,11 +6,13 @@ import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 
 export const RegisterView = () => {
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setFullName("");
     setEmail("");
     setPassword("");
     console.log("Form was submitted");
@@ -41,6 +43,14 @@ export const RegisterView = () => {
               Register
             </h4>
           </div>
+          <Form.Group controlId="formBasicName">
+            <Form.Control
+              type="name"
+              placeholder="Full Name"
+              value={fullName}
+              onChange={(e: any) => setFullName(e.target.value)}
+            />
+          </Form.Group>
           <Form.Group controlId="formBasicEmail">
             <Form.Control
               type="email"
@@ -48,9 +58,6 @@ export const RegisterView = () => {
               value={email}
               onChange={(e: any) => setEmail(e.target.value)}
             />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
             <Form.Control
