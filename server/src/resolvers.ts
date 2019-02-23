@@ -1,7 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import { IResolvers } from "graphql-tools";
 import { User } from "./entity/User";
-import { LoginResponse, RegisterResponse } from "./utility/responseHelper";
+import { LoginResponse, RegisterResponse } from "./utils/responseHelper";
 
 export const resolvers: IResolvers = {
   Query: {
