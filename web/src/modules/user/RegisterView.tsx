@@ -1,6 +1,6 @@
 import { gql } from "apollo-boost";
 import * as React from "react";
-import { FunctionComponent, useState } from "react";
+import { useState } from "react";
 import { Mutation } from "react-apollo";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -20,7 +20,7 @@ const registerMutation = gql`
   }
 `;
 
-export const RegisterView: FunctionComponent<
+export const RegisterView: React.FunctionComponent<
   RouteComponentProps<{}>
 > = props => {
   const [fullName, setFullName] = useState("");
