@@ -10,7 +10,7 @@ export const Routes = () => {
       <Switch>
         <Route path="/login" component={LoginView} />
         <Route path="/register" component={RegisterView} />
-        <Route path="/login" component={MeView} />
+        <Route path="/me" component={MeView} />
       </Switch>
     </Router>
   );
