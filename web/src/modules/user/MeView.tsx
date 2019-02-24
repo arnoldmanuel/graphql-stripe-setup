@@ -1,16 +1,7 @@
-import gql from "graphql-tag";
 import * as React from "react";
 import { Query } from "react-apollo";
+import { meQuery } from "../../graphql/queries/meQuery";
 import { MeQuery } from "../../schemaTypes";
-
-const meQuery = gql`
-  query MeQuery {
-    me {
-      email
-      fullName
-    }
-  }
-`;
 
 export const MeView = () => {
   return (

@@ -1,4 +1,3 @@
-import gql from "graphql-tag";
 import * as React from "react";
 import { useState } from "react";
 import { Mutation } from "react-apollo";
@@ -6,15 +5,8 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { Link, RouteComponentProps } from "react-router-dom";
+import { loginMutation } from "../../graphql/mutations/loginMutation";
 import { LoginMutation, LoginMutationVariables } from "../../schemaTypes";
-
-const loginMutation = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      code
-    }
-  }
-`;
 
 export const LoginView: React.FunctionComponent<
   RouteComponentProps<{}>

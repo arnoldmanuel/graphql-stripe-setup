@@ -1,4 +1,3 @@
-import { gql } from "apollo-boost";
 import * as React from "react";
 import { useState } from "react";
 import { Mutation } from "react-apollo";
@@ -6,19 +5,8 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { Link, RouteComponentProps } from "react-router-dom";
+import { registerMutation } from "../../graphql/mutations/registerMutation";
 import { RegisterMutation, RegisterMutationVariables } from "../../schemaTypes";
-
-const registerMutation = gql`
-  mutation RegisterMutation(
-    $fullName: String!
-    $email: String!
-    $password: String!
-  ) {
-    register(fullName: $fullName, email: $email, password: $password) {
-      code
-    }
-  }
-`;
 
 export const RegisterView: React.FunctionComponent<
   RouteComponentProps<{}>
