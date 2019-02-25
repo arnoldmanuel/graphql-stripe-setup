@@ -29,8 +29,8 @@ const startServer = async () => {
     cors: { credentials: true, origin: "http://localhost:3000" }
   });
 
-  app.listen({ port: 5000 }, () =>
-    console.log(`🚀 Server ready at http://localhost:5000${server.graphqlPath}`)
+  app.listen({ port: 4000 }, () =>
+    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
   );
 };
 
