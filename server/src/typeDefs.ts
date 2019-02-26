@@ -43,5 +43,6 @@ export const typeDefs = gql`
       password: String!
     ): RegisterResponse
     login(email: String!, password: String!): LoginResponse
+    createSubscription(source: String!): User
   }
 `;

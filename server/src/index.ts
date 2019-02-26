@@ -1,6 +1,8 @@
 import { ApolloServer } from "apollo-server-express";
+import "dotenv/config";
 import * as express from "express";
 import * as session from "express-session";
+import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { resolvers } from "./resolvers";
 import { typeDefs } from "./typeDefs";
