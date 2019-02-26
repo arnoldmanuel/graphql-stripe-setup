@@ -39,6 +39,7 @@ export const resolvers: IResolvers = {
 
         RegisterResponse.code = 200;
         RegisterResponse.success = true;
+        RegisterResponse.errors = null;
         RegisterResponse.message = "User was succesfully created";
         return RegisterResponse;
       } catch (error) {
@@ -74,6 +75,7 @@ export const resolvers: IResolvers = {
 
       LoginResponse.code = 200;
       LoginResponse.success = true;
+      LoginResponse.errors = null;
       LoginResponse.message = "User successfully loged in";
       LoginResponse.me = {
         id: user.id,
