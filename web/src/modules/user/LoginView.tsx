@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { loginMutation } from "../../graphql/mutations/loginMutation";
+import { meQuery } from "../../graphql/queries/meQuery";
 import { LoginMutation, LoginMutationVariables } from "../../schemaTypes";
 
 export const LoginView: React.FunctionComponent<
@@ -23,8 +24,19 @@ export const LoginView: React.FunctionComponent<
   };
 
   return (
-    <Mutation<LoginMutation, LoginMutationVariables> mutation={loginMutation}>
-      {mutate => (
+    <Mutation<LoginMutation, LoginMutationVariables>
+      mutation={loginMutation}
+      update={(cache, { data }) => {
+        if (!data || !data.login) {
+          return;
+        }
+        cache.writeQuery({
+          query: meQuery,
+          data: { me: data.login }
+        });
+      }}
+    >
+      {(mutate, { client }) => (
         <div
           style={{
             display: "flex",
@@ -71,6 +83,7 @@ export const LoginView: React.FunctionComponent<
                 variant="primary"
                 block
                 onClick={async () => {
+                  await client.resetStore();
                   const response = await mutate({
                     variables: { email, password }
                   });

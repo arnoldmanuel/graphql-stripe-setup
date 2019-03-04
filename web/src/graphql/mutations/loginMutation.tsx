@@ -4,6 +4,7 @@ export const loginMutation = gql`
   mutation LoginMutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       code
+      type
     }
   }
 `;
