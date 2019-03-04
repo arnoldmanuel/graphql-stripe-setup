@@ -75,7 +75,7 @@ export const LoginView: React.FunctionComponent<
                     variables: { email, password }
                   });
                   console.log(response);
-                  props.history.push("/me");
+                  props.history.push("/account");
                 }}
               >
                 Sign in to your account

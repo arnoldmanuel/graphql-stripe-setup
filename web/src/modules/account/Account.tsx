@@ -1,9 +1,11 @@
 import * as React from "react";
 import { Query } from "react-apollo";
+import { Redirect } from "react-router-dom";
 import { meQuery } from "../../graphql/queries/meQuery";
 import { MeQuery } from "../../schemaTypes";
+import SubscripeUser from "./SubscripeUser";
 
-export const MeView = () => {
+export const Account = () => {
   return (
     <Query<MeQuery> query={meQuery}>
       {({ data, loading, error }) => {
@@ -17,9 +19,19 @@ export const MeView = () => {
           return <div>Something went wrong</div>;
         }
         if (!data.me) {
-          return <div>Something went wrong</div>;
+          return <Redirect to="/login" />;
         }
-        return <div>Welcome back, {data.me.fullName}</div>;
+
+        if (data.me.type === "free-trial") {
+          return <SubscripeUser />;
+        }
+
+        return (
+          <div>
+            <div>Welcome back {data.me.fullName}</div>
+            <div>Thanks for buying</div>
+          </div>
+        );
       }}
     </Query>
   );

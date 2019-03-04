@@ -77,6 +77,7 @@ export interface MeQuery_me {
   __typename: "User";
   email: string | null;
   fullName: string | null;
+  type: string | null;
 }
 
 export interface MeQuery {

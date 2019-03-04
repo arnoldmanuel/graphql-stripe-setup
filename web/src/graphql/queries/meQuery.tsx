@@ -5,6 +5,7 @@ export const meQuery = gql`
     me {
       email
       fullName
+      type
     }
   }
 `;

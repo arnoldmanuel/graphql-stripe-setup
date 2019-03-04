@@ -5,6 +5,7 @@ export const typeDefs = gql`
     id: ID
     email: String
     fullName: String
+    type: String
   }
 
   type Error {
